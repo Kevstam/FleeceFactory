@@ -178,6 +178,93 @@
                 </div>
             </div>
         </div>
+	<!-- YAHOO/ESPN CSV UPLOAD - ADD THIS -->
+<div class="mt-6 bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-md rounded-2xl p-8 border-2 border-purple-500/30 shadow-2xl">
+    <div class="text-center mb-6">
+        <div class="text-7xl mb-4">📊</div>
+        <h3 class="text-3xl font-bold text-white mb-3 headline">YAHOO & ESPN LEAGUES</h3>
+        <p class="text-purple-200 text-lg">Upload your trade history to analyze any league</p>
+    </div>
+    
+    <div class="flex flex-col items-center gap-6">
+        <input type="file" id="csvUpload" accept=".csv" class="hidden">
+        
+        <!-- MASSIVE Upload Button -->
+        <div class="relative w-full max-w-lg">
+            <button onclick="document.getElementById('csvUpload').click()" 
+                class="group relative w-full px-8 sm:px-16 py-6 sm:py-8 bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 hover:from-orange-500 hover:via-red-500 hover:to-orange-500 text-white rounded-2xl font-black text-xl sm:text-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-400/50 animate-pulse hover:animate-none">
+                <span class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                    <span class="text-4xl sm:text-5xl">📤</span>
+                    <div class="text-center sm:text-left">
+                        <div class="text-xl sm:text-3xl">UPLOAD CSV</div>
+                        <div class="text-xs sm:text-sm font-normal text-orange-100 mt-1">Drag & drop or click to browse</div>
+                    </div>
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity -z-10"></div>
+            </button>
+        </div>
+        
+        <div class="text-center">
+            <p class="text-purple-300 text-base sm:text-lg mb-3">Don't have a CSV? Download a template:</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="downloadTemplate('yahoo')" class="px-4 py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/40 text-blue-200 hover:text-white rounded-lg text-sm font-semibold transition-all">
+                    📥 Yahoo Template
+                </button>
+                <button onclick="downloadTemplate('espn')" class="px-4 py-2 bg-red-600/30 hover:bg-red-600/50 border border-red-400/40 text-red-200 hover:text-white rounded-lg text-sm font-semibold transition-all">
+                    📥 ESPN Template
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center w-full max-w-lg">
+            <button onclick="showYahooInstructions()" 
+                class="flex-1 sm:flex-initial px-6 py-3 bg-blue-600/20 hover:bg-blue-600/40 border-2 border-blue-400/40 text-blue-200 hover:text-white rounded-lg font-semibold transition-all duration-200">
+                📘 Yahoo Guide
+            </button>
+            <button onclick="showESPNInstructions()" 
+                class="flex-1 sm:flex-initial px-6 py-3 bg-red-600/20 hover:bg-red-600/40 border-2 border-red-400/40 text-red-200 hover:text-white rounded-lg font-semibold transition-all duration-200">
+                🏈 ESPN Guide
+            </button>
+        </div>
+    </div>
+
+    <div id="uploadStatus" class="mt-6 text-center hidden"></div>
+	</div>
+
+<!-- Export Instructions -->
+<div id="exportInstructions" class="hidden bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-md rounded-2xl p-8 border-2 border-blue-500/30 mb-6 shadow-2xl">
+    <div class="flex justify-between items-start mb-6">
+        <h3 class="text-3xl font-bold text-white headline">📋 Export Guide</h3>
+        <button onclick="hideInstructions()" class="text-3xl text-blue-300 hover:text-white transition-colors">✕</button>
+    </div>
+    <div id="instructionsContent"></div>
+</div>
+
+<!-- CSV Preview Section -->
+<div id="csvPreview" class="hidden bg-gradient-to-br from-yellow-900/20 to-amber-900/20 backdrop-blur-md rounded-2xl p-4 sm:p-6 border-2 border-yellow-500/30 mb-6 shadow-2xl">
+    <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+        <div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white headline mb-1">👀 PREVIEW YOUR TRADES</h3>
+            <p class="text-yellow-200 text-sm">Review before analyzing</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <button id="confirmAnalysis" class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg font-bold shadow-lg transform hover:scale-105 transition-all whitespace-nowrap">
+                ✅ Analyze Now!
+            </button>
+            <button onclick="cancelPreview()" class="px-4 py-3 bg-red-600/30 hover:bg-red-600/50 border border-red-400/40 text-red-200 hover:text-white rounded-lg font-semibold transition-all">
+                ✕ Cancel
+            </button>
+        </div>
+    </div>
+    
+    <div id="previewContent" class="space-y-3"></div>
+    
+    <div class="mt-4 p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
+        <p class="text-blue-200 text-xs sm:text-sm">
+            💡 <strong>Tip:</strong> Make sure team names and player names look correct before analyzing.
+        </p>
+    </div>
+</div>
         
         <div id="userLeaguesSection" class="mt-4 hidden">
             <label class="block text-purple-200 text-sm font-semibold mb-2">Select a League:</label>
@@ -229,6 +316,10 @@
             <div id="contentArea"></div>
         </div>
     </div>
+
+    <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js">
+    </script>
 
     <script>
         let players = {}, transactions = [], draftPicks = [], rosters = [], currentLeague = null, leagueUsers = {};
@@ -873,53 +964,111 @@
         function getOwner(rId) { return leagueUsers[rId]?.username || `Team ${rId}`; }
         function getPlayer(pId) { const p = players[pId]; return p ? `${p.first_name} ${p.last_name}` : 'Unknown'; }
         
-        function getPlayerValue(pId) {
-            const player = players[pId];
-            if (!player) {
-                return 0;
+      function getPlayerValue(playerNameOrId) {
+    // If it's a player ID from Sleeper API
+    if (players[playerNameOrId]) {
+        const player = players[playerNameOrId];
+        const normalizeName = (name) => {
+            return name.toLowerCase()
+                .replace(/\./g, '')
+                .replace(/'/g, '')
+                .replace(/-/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+        
+        const firstName = player.first_name || '';
+        const lastName = player.last_name || '';
+        const fullName = player.full_name || `${firstName} ${lastName}`;
+        
+        const namesToTry = [
+            normalizeName(fullName),
+            normalizeName(`${firstName} ${lastName}`),
+            normalizeName(lastName),
+        ];
+        
+        for (const name of namesToTry) {
+            if (name && dpValues[name]) {
+                return dpValues[name];
             }
-            
-            // Normalize names for better matching
-            const normalizeName = (name) => {
-                return name.toLowerCase()
-                    .replace(/\./g, '') // Remove periods (J.J. -> JJ)
-                    .replace(/'/g, '')  // Remove apostrophes (D'Andre -> DAndre)
-                    .replace(/-/g, ' ') // Replace hyphens with spaces
-                    .replace(/\s+/g, ' ') // Normalize spaces
-                    .trim();
-            };
-            
-            // Try various name formats
-            const firstName = player.first_name || '';
-            const lastName = player.last_name || '';
-            const fullName = player.full_name || `${firstName} ${lastName}`;
-            
-            const namesToTry = [
-                normalizeName(fullName),
-                normalizeName(`${firstName} ${lastName}`),
-                normalizeName(`${lastName}, ${firstName}`),
-                normalizeName(lastName),
-                // Handle Jr/Sr/III suffixes
-                normalizeName(fullName.replace(/\s+(jr|sr|ii|iii|iv)\.?$/i, '')),
-            ];
-            
-            // Remove duplicates
-            const uniqueNames = [...new Set(namesToTry)];
-            
-            for (const name of uniqueNames) {
-                if (name && dpValues[name]) {
-                    return dpValues[name];
-                }
-            }
-            
-            // If still not found, log for debugging (only first time)
-            if (!player._loggedMissing) {
-                console.log('❌ No value for:', fullName, 'Tried:', uniqueNames);
-                player._loggedMissing = true;
-            }
-            
-            return 0;
         }
+        
+        return 0;
+    }
+    
+    // If it's a player name from CSV
+    const playerName = String(playerNameOrId).trim();
+    
+    // Check if it's a draft pick
+    if (playerName.match(/\d{4}.*(?:1st|2nd|3rd|4th|round|pick)/i)) {
+        return estimatePickValue(playerName);
+    }
+    
+    // Try to find in DynastyProcess values
+    const normalized = playerName.toLowerCase()
+        .replace(/\./g, '')
+        .replace(/'/g, '')
+        .replace(/-/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    
+    if (dpValues[normalized]) {
+        return dpValues[normalized];
+    }
+    
+    // Fallback: Estimate value based on name recognition
+    return estimatePlayerValue(playerName);
+}
+
+function estimatePickValue(pickText) {
+    const text = pickText.toLowerCase();
+    const year = parseInt(pickText.match(/\d{4}/)?.[0] || new Date().getFullYear());
+    const currentYear = new Date().getFullYear();
+    const yearsOut = year - currentYear;
+    
+    let baseValue = 1000;
+    
+    if (text.includes('1st') || text.includes('first')) {
+        if (text.includes('early')) baseValue = 4500;
+        else if (text.includes('mid')) baseValue = 3500;
+        else if (text.includes('late')) baseValue = 2500;
+        else baseValue = 3500; // Default 1st
+    } else if (text.includes('2nd') || text.includes('second')) {
+        if (text.includes('early')) baseValue = 1800;
+        else if (text.includes('mid')) baseValue = 1400;
+        else if (text.includes('late')) baseValue = 1000;
+        else baseValue = 1400; // Default 2nd
+    } else if (text.includes('3rd') || text.includes('third')) {
+        baseValue = 500;
+    } else if (text.includes('4th') || text.includes('fourth')) {
+        baseValue = 200;
+    }
+    
+    // Apply depreciation for future years
+    if (yearsOut > 0) {
+        baseValue = Math.round(baseValue * Math.pow(0.9, yearsOut));
+    }
+    
+    return baseValue;
+}
+
+function estimatePlayerValue(playerName) {
+    // Elite tier - recognizable superstar names
+    const elitePlayers = [
+        'justin jefferson', 'ja\'marr chase', 'ceedee lamb', 'tyreek hill',
+        'bijan robinson', 'breece hall', 'jahmyr gibbs', 'kenneth walker',
+        'patrick mahomes', 'josh allen', 'lamar jackson', 'jalen hurts'
+    ];
+    
+    const normalized = playerName.toLowerCase().trim();
+    
+    if (elitePlayers.some(name => normalized.includes(name.split(' ')[1]))) {
+        return 8000; // Elite value
+    }
+    
+    // Default value for unknown players
+    return 2000;
+}
         
         function calcScore(trade) {
             const rosters = new Set();
@@ -2454,10 +2603,595 @@
         function hideError() { document.getElementById('errorMsg').classList.add('hidden'); }
         function showLoading() { document.getElementById('loadingMsg').classList.remove('hidden'); }
         function hideLoading() { document.getElementById('loadingMsg').classList.add('hidden'); }
+	// ===== CSV UPLOAD FUNCTIONALITY =====
+
+// Drag and drop support
+const uploadButton = document.querySelector('button[onclick*="csvUpload"]');
+if (uploadButton) {
+    uploadButton.parentElement.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadButton.classList.add('scale-110', 'brightness-110');
+    });
+    
+    uploadButton.parentElement.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadButton.classList.remove('scale-110', 'brightness-110');
+    });
+    
+    uploadButton.parentElement.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadButton.classList.remove('scale-110', 'brightness-110');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.csv')) {
+            const input = document.getElementById('csvUpload');
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            input.files = dataTransfer.files;
+            handleCSVUpload({ target: input });
+        }
+    });
+}
+
+let pendingTrades = null;
+let pendingPlatform = null;
+
+
+function handleCSVUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const status = document.getElementById('uploadStatus');
+    status.className = 'mt-6 text-center text-blue-300 text-lg font-semibold';
+    status.textContent = '⏳ Processing CSV...';
+    status.classList.remove('hidden');
+
+    Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            try {
+                console.log('CSV Data:', results.data);
+		
+		const platform = detectCSVPlatform(results.data);
+		console.log('Platform detected:', platform);
+
+                const trades = parseCSVTrades(results.data, platform);
+                console.log('Trades parsed:', trades);
+
+		if (trades.length === 0) {
+                    throw new Error('No valid trades found in CSV. Please check your column names match the template.');
+                }
+
+                pendingTrades = trades;
+                pendingPlatform = platform;
+                showCSVPreview(trades, platform);
+                
+                status.className = 'mt-6 text-center text-green-300 text-lg font-semibold';
+                status.textContent = `✅ Found ${trades.length} trades from ${platform}!`;
+            } catch (error) {
+                status.className = 'mt-6 text-center text-red-300 text-lg font-semibold';
+                status.textContent = `❌ Error: ${error.message}`;
+                console.error(error);
+		console.error('Full error:', error);
+            }
+        },
+        error: function(error) {
+            status.className = 'mt-6 text-center text-red-300 text-lg font-semibold';
+            status.textContent = `❌ Error reading file: ${error.message}`;
+        }
+    });
+}
+
+function detectCSVPlatform(data) {
+    if (data.length === 0) throw new Error('CSV file is empty');
+    
+    const headers = Object.keys(data[0]).map(h => h.toLowerCase().trim());
+    console.log('CSV Headers detected:', headers); // Debug
+    
+    // Yahoo detection - look for "Trading With" or "Traded Away"
+    if (headers.some(h => h.includes('trading')) || 
+        headers.some(h => h === 'traded away' || h === 'acquired')) {
+        return 'Yahoo';
+    }
+    
+    // ESPN detection - look for "Dropped" and "Added" columns
+    if (headers.some(h => h === 'dropped') && headers.some(h => h === 'added')) {
+        return 'ESPN';
+    }
+    
+    // Generic format
+    if (headers.includes('team_a') || headers.includes('team a')) {
+        return 'Generic';
+    }
+    
+    // If nothing matches, show what we found
+    throw new Error(`Unable to detect platform. Found columns: ${headers.join(', ')}`);
+}
+
+function parseCSVTrades(data, platform) {
+    switch(platform) {
+        case 'Yahoo': return parseYahooCSV(data);
+        case 'ESPN': return parseESPNCSV(data);
+        case 'Generic': return parseGenericCSV(data);
+        default: throw new Error('Unknown platform');
+    }
+}
+
+function parseYahooCSV(data) {
+    const trades = [];
+    
+    data.forEach(row => {
+        // Skip empty rows
+        if (!row || Object.keys(row).length === 0) return;
+        
+        // Be flexible with column names
+        const date = row['Date'] || row['date'] || row['DATE'] || 'Unknown';
+        const team = row['Team'] || row['team'] || row['TEAM'] || 'Team A';
+        const tradingWith = row['Trading With'] || row['trading with'] || row['With'] || row['with'] || 'Team B';
+        const tradedAway = row['Traded Away'] || row['traded away'] || row['Gave'] || row['gave'] || '';
+        const acquired = row['Acquired'] || row['acquired'] || row['Received'] || row['received'] || '';
+        
+        // Only add if there's actual trade data
+        if (tradedAway || acquired) {
+            trades.push({
+                date: date,
+                teamA: team,
+                teamB: tradingWith,
+                teamAGives: parsePlayerList(tradedAway),
+                teamAGets: parsePlayerList(acquired),
+                platform: 'Yahoo'
+            });
+        }
+    });
+    
+    console.log(`✅ Parsed ${trades.length} Yahoo trades`);
+    return trades;
+}
+
+function parseESPNCSV(data) {
+    const trades = [];
+    
+    data.forEach(row => {
+        // Skip empty rows
+        if (!row || Object.keys(row).length === 0) return;
+        
+        // Be flexible with column names (case-insensitive)
+        const date = row['Date'] || row['date'] || row['DATE'] || 'Unknown';
+        const team = row['Team'] || row['team'] || row['TEAM'] || 'Team A';
+        const with_ = row['With'] || row['with'] || row['WITH'] || row['Trading With'] || 'Team B';
+        const dropped = row['Dropped'] || row['dropped'] || row['DROPPED'] || row['Traded'] || '';
+        const added = row['Added'] || row['added'] || row['ADDED'] || row['Received'] || '';
+        
+        // Only add if there's actual trade data
+        if (dropped || added) {
+            trades.push({
+                date: date,
+                teamA: team,
+                teamB: with_,
+                teamAGives: parsePlayerList(dropped),
+                teamAGets: parsePlayerList(added),
+                platform: 'ESPN'
+            });
+        }
+    });
+    
+    console.log(`✅ Parsed ${trades.length} ESPN trades`);
+    return trades;
+}
+
+function parseGenericCSV(data) {
+    const trades = [];
+    
+    data.forEach(row => {
+        // Skip empty rows
+        if (!row || Object.keys(row).length === 0) return;
+        
+        // Be flexible with column names
+        const date = row['date'] || row['Date'] || row['DATE'] || 'Unknown';
+        const teamA = row['team_a'] || row['Team A'] || row['team a'] || row['TEAM_A'] || 'Team A';
+        const teamB = row['team_b'] || row['Team B'] || row['team b'] || row['TEAM_B'] || 'Team B';
+        const teamAGives = row['team_a_gives'] || row['Team A Gives'] || row['team a gives'] || '';
+        const teamAGets = row['team_a_gets'] || row['Team A Gets'] || row['team a gets'] || '';
+        
+        // Only add if there's actual trade data
+        if (teamAGives || teamAGets) {
+            trades.push({
+                date: date,
+                teamA: teamA,
+                teamB: teamB,
+                teamAGives: parsePlayerList(teamAGives),
+                teamAGets: parsePlayerList(teamAGets),
+                platform: 'Generic'
+            });
+        }
+    });
+    
+    console.log(`✅ Parsed ${trades.length} Generic trades`);
+    return trades;
+}
+
+function parsePlayerList(str) {
+    if (!str) return [];
+    return str.split(/[,;]/).map(p => p.trim()).filter(p => p.length > 0);
+}
+
+function showCSVPreview(trades, platform) {
+    const preview = document.getElementById('csvPreview');
+    const content = document.getElementById('previewContent');
+    
+    const previewTrades = trades.slice(0, 5);
+    
+    content.innerHTML = `
+        <div class="bg-slate-900/40 rounded-lg p-3 sm:p-4 mb-4 border border-yellow-500/30">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <div>
+                    <span class="text-yellow-400 font-bold text-sm">Platform:</span>
+                    <span class="text-white ml-2">${platform}</span>
+                </div>
+                <div>
+                    <span class="text-yellow-400 font-bold text-sm">Total:</span>
+                    <span class="text-white ml-2">${trades.length} trades</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="space-y-3">
+            ${previewTrades.map((trade, idx) => `
+                <div class="bg-slate-900/60 rounded-lg p-3 sm:p-4 border border-yellow-400/20">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-white font-bold text-sm sm:text-base">Trade #${idx + 1}</span>
+                        <span class="text-yellow-300 text-xs sm:text-sm">${trade.date}</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <div class="border-b sm:border-b-0 pb-2 sm:pb-0">
+                            <div class="text-blue-400 font-semibold mb-1">${trade.teamA}</div>
+                            <div class="text-gray-300 truncate">Gives: ${trade.teamAGives.slice(0, 2).join(', ') || 'Nothing'}${trade.teamAGives.length > 2 ? '...' : ''}</div>
+                            <div class="text-gray-300 truncate">Gets: ${trade.teamAGets.slice(0, 2).join(', ') || 'Nothing'}${trade.teamAGets.length > 2 ? '...' : ''}</div>
+                        </div>
+                        <div>
+                            <div class="text-orange-400 font-semibold mb-1">${trade.teamB}</div>
+                            <div class="text-gray-300 truncate">Gives: ${trade.teamAGets.slice(0, 2).join(', ') || 'Nothing'}${trade.teamAGets.length > 2 ? '...' : ''}</div>
+                            <div class="text-gray-300 truncate">Gets: ${trade.teamAGives.slice(0, 2).join(', ') || 'Nothing'}${trade.teamAGives.length > 2 ? '...' : ''}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        
+        ${trades.length > 5 ? `
+            <div class="text-center mt-3 text-yellow-300 text-xs sm:text-sm">
+                ... and ${trades.length - 5} more trades
+            </div>
+        ` : ''}
+    `;
+    
+    preview.classList.remove('hidden');
+    preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    document.getElementById('confirmAnalysis').onclick = () => {
+        displayCSVAnalysis(pendingTrades, pendingPlatform);
+        preview.classList.add('hidden');
+    };
+}
+
+function cancelPreview() {
+    document.getElementById('csvPreview').classList.add('hidden');
+    document.getElementById('csvUpload').value = '';
+    document.getElementById('uploadStatus').classList.add('hidden');
+    pendingTrades = null;
+    pendingPlatform = null;
+}
+
+function displayCSVAnalysis(trades, platform) {
+    document.getElementById('quickAnalyzer').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+    
+    // Update league info
+    document.getElementById('leagueName').textContent = `${platform} League Analysis`;
+    document.getElementById('leagueInfo').textContent = `${trades.length} trades uploaded`;
+    
+    // Stats section
+    const uniqueTeams = new Set();
+    trades.forEach(t => {
+        uniqueTeams.add(t.teamA);
+        uniqueTeams.add(t.teamB);
+    });
+    
+    document.getElementById('statsSection').innerHTML = `
+        <div class="bg-gradient-to-br from-red-900/40 to-orange-900/40 backdrop-blur-md rounded-xl p-6 border-2 border-red-500/30">
+            <div class="text-red-300 text-sm font-semibold mb-1">Total Trades</div>
+            <div class="text-white text-3xl font-bold">${trades.length}</div>
+        </div>
+        <div class="bg-gradient-to-br from-green-900/40 to-emerald-900/40 backdrop-blur-md rounded-xl p-6 border-2 border-green-500/30">
+            <div class="text-green-300 text-sm font-semibold mb-1">Teams</div>
+            <div class="text-white text-3xl font-bold">${uniqueTeams.size}</div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/40 to-cyan-900/40 backdrop-blur-md rounded-xl p-6 border-2 border-blue-500/30">
+            <div class="text-blue-300 text-sm font-semibold mb-1">Platform</div>
+            <div class="text-white text-lg font-bold">${platform}</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-md rounded-xl p-6 border-2 border-purple-500/30">
+            <div class="text-purple-300 text-sm font-semibold mb-1">Source</div>
+            <div class="text-white text-lg font-bold">CSV Upload</div>
+        </div>
+    `;
+    
+    // Display trades
+    const tradesHTML = trades.map((trade, idx) => {
+        const teamAGivesValues = trade.teamAGives.map(p => getPlayerValue(p));
+        const teamAGetsValues = trade.teamAGets.map(p => getPlayerValue(p));
+        
+        const teamAValue = teamAGivesValues.reduce((sum, val) => sum + val, 0);
+        const teamBValue = teamAGetsValues.reduce((sum, val) => sum + val, 0);
+        
+        const diff = Math.abs(teamAValue - teamBValue);
+        const total = teamAValue + teamBValue;
+        const pctDiff = total > 0 ? (diff / total) * 100 : 0;
+        const score = Math.min(100, Math.round(pctDiff * 2));
+        const rating = getRating(score);
+        const winner = teamAValue > teamBValue ? 'A' : 'B';
+        
+        return `
+            <div class="bg-red-900/30 rounded-2xl p-6 mb-4 border-2 ${rating.border} shadow-xl">
+                <div class="flex justify-between mb-4">
+                    <div class="${rating.color} px-4 py-2 rounded-lg text-white font-bold border-2 ${rating.border}">${rating.sheep} ${rating.level}</div>
+                    <div class="text-red-300 text-sm text-right">
+                        <div>Fleece Score: <span class="font-bold text-lg">${score}/100</span></div>
+                        <div class="text-xs">${trade.date}</div>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/60 p-5 rounded-xl border-2 ${winner === 'A' ? 'border-green-500' : 'border-red-500'}">
+                        <h3 class="text-xl font-bold ${winner === 'A' ? 'text-green-400' : 'text-red-400'} mb-4 headline">
+                            ${trade.teamA} ${winner === 'A' ? '👑 WINS' : '😭 LOSES'}
+                        </h3>
+                        <div class="mb-3">
+                            <div class="text-red-400 font-bold text-sm mb-2">❌ GIVES:</div>
+                            ${trade.teamAGives.map((p, i) => {
+                                const val = teamAGivesValues[i];
+                                return `<div class="text-gray-300 text-sm flex justify-between items-center mb-1">
+                                    <span>• ${p}</span>
+                                    <span class="text-red-400 font-semibold">${val > 0 ? val.toLocaleString() : 'N/A'}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-green-400 font-bold text-sm mb-2">✅ GETS:</div>
+                            ${trade.teamAGets.map((p, i) => {
+                                const val = teamAGetsValues[i];
+                                return `<div class="text-gray-300 text-sm flex justify-between items-center mb-1">
+                                    <span>• ${p}</span>
+                                    <span class="text-green-400 font-semibold">${val > 0 ? val.toLocaleString() : 'N/A'}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-purple-300 font-bold text-sm">NET VALUE:</span>
+                                <span class="text-purple-400 font-bold">${(teamBValue - teamAValue).toLocaleString()} pts</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-900/60 p-5 rounded-xl border-2 ${winner === 'B' ? 'border-green-500' : 'border-red-500'}">
+                        <h3 class="text-xl font-bold ${winner === 'B' ? 'text-green-400' : 'text-red-400'} mb-4 headline">
+                            ${trade.teamB} ${winner === 'B' ? '👑 WINS' : '😭 LOSES'}
+                        </h3>
+                        <div class="mb-3">
+                            <div class="text-red-400 font-bold text-sm mb-2">❌ GIVES:</div>
+                            ${trade.teamAGets.map((p, i) => {
+                                const val = teamAGetsValues[i];
+                                return `<div class="text-gray-300 text-sm flex justify-between items-center mb-1">
+                                    <span>• ${p}</span>
+                                    <span class="text-red-400 font-semibold">${val > 0 ? val.toLocaleString() : 'N/A'}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-green-400 font-bold text-sm mb-2">✅ GETS:</div>
+                            ${trade.teamAGives.map((p, i) => {
+                                const val = teamAGivesValues[i];
+                                return `<div class="text-gray-300 text-sm flex justify-between items-center mb-1">
+                                    <span>• ${p}</span>
+                                    <span class="text-green-400 font-semibold">${val > 0 ? val.toLocaleString() : 'N/A'}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-purple-300 font-bold text-sm">NET VALUE:</span>
+                                <span class="text-purple-400 font-bold">${(teamAValue - teamBValue).toLocaleString()} pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('contentArea').innerHTML = tradesHTML;
+    document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
+}
+
+function calculateTradeValue(players) {
+    return players.reduce((sum, player) => sum + getPlayerValue(player), 0);
+}
+
+function downloadTemplate(platform) {
+    let csvContent, filename;
+    
+    if (platform === 'yahoo') {
+        csvContent = `Date,Team,Trading With,Traded Away,Acquired
+10/09/2025,Team A,Team B,"Justin Jefferson, 2025 1st","CeeDee Lamb, 2026 2nd"
+10/05/2025,Team C,Team D,Bijan Robinson,Breece Hall
+`;
+        filename = 'yahoo_template.csv';
+    } else {
+        csvContent = `Date,Team,With,Dropped,Added
+10/09/2025,Team A,Team B,"Ja'Marr Chase","Bijan Robinson, 2025 1st"
+10/05/2025,Team C,Team D,Patrick Mahomes,Josh Allen
+`;
+        filename = 'espn_template.csv';
+    }
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+function showYahooInstructions() {
+    document.getElementById('exportInstructions').classList.remove('hidden');
+    document.getElementById('instructionsContent').innerHTML = `
+        <div class="space-y-6">
+            <div class="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-xl p-6 border-2 border-green-500/40">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-4xl">⚡</div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-white headline">QUICK METHOD</h4>
+                        <p class="text-green-200">Create your own CSV in 5 minutes</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">1</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Open Excel or Google Sheets</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">2</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Add column headers:</p>
+                            <div class="bg-black/40 rounded-lg p-2 sm:p-3 mt-2 overflow-x-auto">
+                                <code class="text-green-300 text-xs sm:text-sm">Date | Team | Trading With | Traded Away | Acquired</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">3</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Fill in your trades</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">4</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Save as CSV & upload!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('exportInstructions').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showESPNInstructions() {
+    document.getElementById('exportInstructions').classList.remove('hidden');
+    document.getElementById('instructionsContent').innerHTML = `
+        <div class="space-y-6">
+            <div class="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-xl p-6 border-2 border-green-500/40">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-4xl">⚡</div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-white headline">QUICK METHOD</h4>
+                        <p class="text-green-200">Create your own CSV in 5 minutes</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">1</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Open Excel or Google Sheets</p>
+                        </div>
+                    </div>
+                    
+		    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">2</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Add column headers:</p>
+                            <div class="bg-black/40 rounded-lg p-2 sm:p-3 mt-2 overflow-x-auto">
+                                <code class="text-green-300 text-xs sm:text-sm">Date | Team | With | Dropped | Added</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">3</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Fill in your trades</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 sm:gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">4</div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1 text-sm sm:text-base">Save as CSV & upload!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('exportInstructions').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function hideInstructions() {
+    document.getElementById('exportInstructions').classList.add('hidden');
+}
+function hideLoading() { document.getElementById('loadingMsg').classList.add('hidden'); }
+        
+        // ===== INITIALIZE CSV UPLOAD - ADD THIS SECTION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const csvInput = document.getElementById('csvUpload');
+            if (csvInput) {
+                csvInput.addEventListener('change', handleCSVUpload);
+                console.log('✅ CSV upload listener attached');
+            } else {
+                console.error('❌ CSV upload input not found!');
+            }
+            
+            // Also attach drag and drop
+            const uploadButton = document.querySelector('button[onclick*="csvUpload"]');
+            if (uploadButton && uploadButton.parentElement) {
+                uploadButton.parentElement.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadButton.classList.add('scale-110', 'brightness-110');
+                });
+                
+                uploadButton.parentElement.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    uploadButton.classList.remove('scale-110', 'brightness-110');
+                });
+                
+                uploadButton.parentElement.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadButton.classList.remove('scale-110', 'brightness-110');
+                    const file = e.dataTransfer.files[0];
+                    if (file && file.name.endsWith('.csv')) {
+                        const input = document.getElementById('csvUpload');
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        input.files = dataTransfer.files;
+                        handleCSVUpload({ target: input });
+                    }
+                });
+                console.log('✅ Drag and drop attached');
+            }
+        });
+        // ===== END CSV INITIALIZATION =====
     </script>
 </body>
 
 </html>
-
 
 
